@@ -13,7 +13,8 @@ class MenuController
       puts "2 - Create an entry"
       puts "3 - Search for an array"
       puts "4 - Import entries from a CVS"
-      puts "5 - Exit"
+      puts "5 - View Entry Number n"
+      puts "6 - Exit"
       print "Enter your selection: "
 
       selection = gets.to_i
@@ -35,9 +36,11 @@ class MenuController
           read_cvs
           main_menu
         when 5
+          system "clear"
+          view_entry_by_number
+        when 6
           puts "Good-bye!"
           exit(0)
-
         else
           system "clear"
           puts "Sorry, that is not a valid input"
@@ -85,7 +88,6 @@ class MenuController
       puts "e - edit this entry"
       puts "m - return to main menu"
 
-
       selection = gets.chomp
 
       case selection
@@ -103,6 +105,25 @@ class MenuController
           system "clear"
           puts "#{selection} is not a valid input"
           entry_submenu(entry)
+      end
+    end
+
+    def view_entry_by_number
+      print "Please enter a number: "
+      selection = gets.chomp.to_i
+      address_book.add_entry("John Doe", "123.456.7890", "john.doe@doe.com")
+
+      if(address_book.entries[selection])
+        puts address_book.entries[selection]
+        puts "press enter to exit to main_menu"
+        gets.chomp
+        system "clear"
+        main_menu
+      else
+        print "#{selection} not found, please select a valid entry or select exit: "
+        answer = gets.chomp
+        main_menu if(answer == "exit")
+        view_entry_by_number
       end
     end
 end
